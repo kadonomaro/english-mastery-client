@@ -1,9 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+    import MainLayout from "@/layouts/MainLayout.vue";
+</script>
 
 <template>
-    <div class="main-layout">
-        <router-view></router-view>
-    </div>
+    <main-layout></main-layout>
 </template>
 
 <style></style>
