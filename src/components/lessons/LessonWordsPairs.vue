@@ -78,48 +78,57 @@
         setTimeout(() => {
             isError.value = false;
             selected.nameId = 0;
+            selected.translateId = 0;
         }, TIMEOUT);
     };
 </script>
 
 <template>
     <div class="lesson-words-pairs" :class="{ 'is-disabled': isSuccess || isError }">
-        <div class="lesson-words-pairs__group">
-            <div v-for="pair in nameList" :key="pair.id" class="lesson-words-pairs__button">
-                <base-button
-                    :is-active="selected.nameId === pair.id"
-                    :is-success="isEqual && isSuccess && selected.nameId === pair.id"
-                    :is-error="isError && selected.nameId === pair.id"
-                    :is-disabled="pair.completed"
-                    @click="onSelectName(pair.id)"
+        <div class="lesson-words-pairs__inner">
+            <div class="lesson-words-pairs__group">
+                <div
+                    v-for="pair in nameList"
+                    :key="pair.id"
+                    class="lesson-words-pairs__button"
                 >
-                    {{ pair.name }}
-                </base-button>
+                    <base-button
+                        :is-active="selected.nameId === pair.id"
+                        :is-success="isEqual && isSuccess && selected.nameId === pair.id"
+                        :is-error="isError && selected.nameId === pair.id"
+                        :is-disabled="pair.completed"
+                        @click="onSelectName(pair.id)"
+                    >
+                        {{ pair.name }}
+                    </base-button>
+                </div>
             </div>
-        </div>
 
-        <div class="lesson-words-pairs__group">
-            <div
-                v-for="pair in translateList"
-                :key="pair.id"
-                class="lesson-words-pairs__button"
-            >
-                <base-button
-                    :is-success="isEqual && isSuccess && selected.translateId === pair.id"
-                    :is-error="isError && selected.translateId === pair.id"
-                    :is-disabled="pair.completed"
-                    @click="onSelectedTranslate(pair.id)"
+            <div class="lesson-words-pairs__group">
+                <div
+                    v-for="pair in translateList"
+                    :key="pair.id"
+                    class="lesson-words-pairs__button"
                 >
-                    {{ pair.translate }}
-                </base-button>
+                    <base-button
+                        :is-success="isEqual && isSuccess && selected.translateId === pair.id"
+                        :is-error="isError && selected.translateId === pair.id"
+                        :is-disabled="pair.completed"
+                        @click="onSelectedTranslate(pair.id)"
+                    >
+                        {{ pair.translate }}
+                    </base-button>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <style lang="scss">
-    .lesson-words-pairs {
+    .lesson-words-pairs__inner {
         display: flex;
+        max-width: 600px;
+        margin: 0 auto;
         &.is-disabled {
             pointer-events: none;
         }
