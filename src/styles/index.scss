@@ -6,9 +6,14 @@ html {
 }
 
 .container {
-    max-width: 620px;
     margin: 0 auto;
     padding: 0 10px;
+}
 
+.container--small {
+    max-width: 620px;
+}
 
+.container--large {
+    max-width: 1280px;
 }

@@ -13,7 +13,8 @@ export class LessonsService {
 const lessonsList: Lesson[] = [
     { id: "0001", name: "Начало", level: "easy" },
     { id: "0002", name: "Животные", level: "easy" },
-    { id: "0003", name: "Цвета", level: "easy" },
+    { id: "0003", name: "Цвета", level: "medium" },
+    { id: "0004", name: "Офис", level: "hard" },
 ];
 
 const lessons: Record<string, LessonDetail[]> = {
@@ -52,5 +53,17 @@ const lessons: Record<string, LessonDetail[]> = {
         { id: "008", name: "orange", translate: "оранжевый", completed: false },
         { id: "009", name: "grey", translate: "серый", completed: false },
         { id: "010", name: "violet", translate: "фиолетовый", completed: false },
+    ],
+    "0004": [
+        { id: "001", name: "pen", translate: "ручка", completed: false },
+        { id: "002", name: "pencil", translate: "карандаш", completed: false },
+        { id: "003", name: "desk", translate: "рабочий стол", completed: false },
+        { id: "004", name: "printer", translate: "принтер", completed: false },
+        { id: "005", name: "ruler", translate: "линейка", completed: false },
+        { id: "006", name: "chair", translate: "стул", completed: false },
+        { id: "007", name: "paper", translate: "бумага", completed: false },
+        { id: "008", name: "ink", translate: "чернила", completed: false },
+        { id: "009", name: "glue", translate: "клей", completed: false },
+        { id: "010", name: "eraser", translate: "резинка", completed: false },
     ],
 };

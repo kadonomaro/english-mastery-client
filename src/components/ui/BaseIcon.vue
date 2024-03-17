@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    type Name = "flame" | "gem";
+    type Name = "flame" | "gem" | "gym" | "timer";
 
     type Props = {
         name: Name;

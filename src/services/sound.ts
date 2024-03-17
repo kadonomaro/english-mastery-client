@@ -1,4 +1,4 @@
-type Sound = "success" | "error" | "finish";
+type Sound = "success" | "error" | "start" | "finish";
 type Audio = Partial<Record<Sound, HTMLAudioElement>>;
 
 class SoundService {
@@ -8,6 +8,7 @@ class SoundService {
         this.audio = {
             success: new Audio(`/static/sounds/success.mp3`),
             error: new Audio(`/static/sounds/error.mp3`),
+            start: new Audio(`/static/sounds/start.mp3`),
             finish: new Audio(`/static/sounds/finish.mp3`),
         };
     }

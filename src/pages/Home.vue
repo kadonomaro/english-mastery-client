@@ -4,7 +4,7 @@
 
 <template>
     <div class="home-page">
-        <div class="container">
+        <div class="container container--small">
             <div class="home-page__lessons">
                 <home-lessons></home-lessons>
             </div>

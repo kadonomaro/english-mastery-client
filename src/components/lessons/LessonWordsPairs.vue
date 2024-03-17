@@ -1,11 +1,14 @@
 <script setup lang="ts">
-    import { computed, reactive, ref, toRefs } from "vue";
+    import { computed, onMounted, reactive, ref, toRefs, watch } from "vue";
+    import { useRouter } from "vue-router";
     import { arrayShuffle } from "@/utils";
     import { soundService } from "@/services/sound.ts";
     import { LessonDetail } from "@/api/services/lessons/types.ts";
     import BaseButton from "@/components/ui/BaseButton.vue";
 
-    const TIMEOUT = 300;
+    const router = useRouter();
+
+    const TIMEOUT = 200;
 
     type Props = {
         lessons: LessonDetail[];
@@ -15,13 +18,10 @@
     const { lessons } = toRefs(props);
 
     const pairs = ref(lessons);
-
-    const nameList = computed(() => {
-        return pairs.value;
-    });
+    const completedPairs = ref(0);
 
     const translateList = computed(() => {
-        return arrayShuffle(nameList.value);
+        return arrayShuffle(pairs.value);
     });
 
     const isEqual = computed(() => {
@@ -33,25 +33,35 @@
         translateId: "",
     });
 
-    const onSelectName = (id: string) => {
-        selected.nameId === id ? (selected.nameId = "") : (selected.nameId = id);
-    };
+    watch(
+        () => `${selected.nameId}_${selected.translateId}`,
+        (value) => {
+            if (value.split("_").filter(Boolean).length === 2) {
+                checkPairs();
+            }
+        },
+    );
 
-    const onSelectedTranslate = (id: string) => {
-        selected.translateId = id;
-        checkPairs();
+    const onSelectPair = (id: string, type: "nameId" | "translateId") => {
+        selected[type] = id;
     };
 
     const checkPairs = () => {
-        if (isEqual.value) {
-            setSuccessState();
-        } else {
-            setErrorState();
-        }
+        isEqual.value ? setSuccessState() : setErrorState();
+    };
+
+    const clearSelected = () => {
+        selected.nameId = "";
+        selected.translateId = "";
     };
 
     const isSuccess = ref(false);
     const setSuccessState = () => {
+        completedPairs.value++;
+
+        if (completedPairs.value === pairs.value.length) {
+            setFinishState();
+        }
         soundService.play("success");
 
         isSuccess.value = true;
@@ -59,6 +69,7 @@
             isSuccess.value = false;
             const index = pairs.value.findIndex((pair) => pair.id === selected.nameId);
             pairs.value[index].completed = true;
+            clearSelected();
         }, TIMEOUT);
     };
 
@@ -69,27 +80,33 @@
         isError.value = true;
         setTimeout(() => {
             isError.value = false;
-            selected.nameId = "";
-            selected.translateId = "";
+            clearSelected();
         }, TIMEOUT);
     };
+
+    const setFinishState = () => {
+        setTimeout(() => {
+            soundService.play("finish");
+            router.push({ name: "Home" });
+        }, 1000);
+    };
+
+    onMounted(() => {
+        soundService.play("start");
+    });
 </script>
 
 <template>
     <div class="lesson-words-pairs" :class="{ 'is-disabled': isSuccess || isError }">
         <div class="lesson-words-pairs__inner">
             <div class="lesson-words-pairs__group">
-                <div
-                    v-for="pair in nameList"
-                    :key="pair.id"
-                    class="lesson-words-pairs__button"
-                >
+                <div v-for="pair in pairs" :key="pair.id" class="lesson-words-pairs__button">
                     <base-button
                         :is-active="selected.nameId === pair.id"
                         :is-success="isEqual && isSuccess && selected.nameId === pair.id"
                         :is-error="isError && selected.nameId === pair.id"
                         :is-disabled="pair.completed"
-                        @click="onSelectName(pair.id)"
+                        @click="onSelectPair(pair.id, 'nameId')"
                     >
                         {{ pair.name }}
                     </base-button>
@@ -103,10 +120,11 @@
                     class="lesson-words-pairs__button"
                 >
                     <base-button
+                        :is-active="selected.translateId === pair.id"
                         :is-success="isEqual && isSuccess && selected.translateId === pair.id"
                         :is-error="isError && selected.translateId === pair.id"
                         :is-disabled="pair.completed"
-                        @click="onSelectedTranslate(pair.id)"
+                        @click="onSelectPair(pair.id, 'translateId')"
                     >
                         {{ pair.translate }}
                     </base-button>

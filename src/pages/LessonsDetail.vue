@@ -18,7 +18,7 @@
 
 <template>
     <div class="lessons-page">
-        <div class="container">
+        <div class="container container--small">
             <lesson-words-pairs :lessons="lessons"></lesson-words-pairs>
         </div>
     </div>
