@@ -1,7 +1,8 @@
 type Sound = "success" | "error" | "finish";
+type Audio = Partial<Record<Sound, HTMLAudioElement>>;
 
 class SoundService {
-    private audio: Partial<Record<Sound, HTMLAudioElement>>;
+    private audio: Audio;
 
     constructor() {
         this.audio = {
@@ -12,7 +13,15 @@ class SoundService {
     }
 
     play(sound: Sound) {
+        this.stop(sound);
         this.audio[sound]?.play();
+    }
+
+    stop(sound: Sound) {
+        if (this.audio[sound]) {
+            this.audio[sound]?.pause();
+            this.audio[sound]!.currentTime = 0;
+        }
     }
 }
 

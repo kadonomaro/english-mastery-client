@@ -10,6 +10,13 @@ export default defineConfig({
             "@": path.resolve(__dirname, "./src"),
         },
     },
+    css: {
+        preprocessorOptions: {
+            scss: {
+                additionalData: `@import "@/styles/_media.scss";`,
+            },
+        },
+    },
     server: {
         port: 3000,
     },
