@@ -1,31 +1,23 @@
 <script setup lang="ts">
-    import { computed, reactive, ref } from "vue";
+    import { computed, reactive, ref, toRefs } from "vue";
     import { arrayShuffle } from "@/utils";
     import { soundService } from "@/services/sound.ts";
+    import { LessonDetail } from "@/api/services/lessons/types.ts";
     import BaseButton from "@/components/ui/BaseButton.vue";
 
     const TIMEOUT = 300;
 
-    const pairs = ref([
-        { id: 111, name: "they", translate: "они", completed: false },
-        { id: 222, name: "you", translate: "ты", completed: false },
-        { id: 333, name: "he", translate: "он", completed: false },
-        { id: 444, name: "she", translate: "она", completed: false },
-        { id: 555, name: "we", translate: "мы", completed: false },
-        { id: 666, name: "boy", translate: "мальчик", completed: false },
-        { id: 777, name: "girl", translate: "девочка", completed: false },
-        { id: 888, name: "man", translate: "мужчина", completed: false },
-        { id: 999, name: "woman", translate: "женщина", completed: false },
-        { id: 1000, name: "age", translate: "возраст", completed: false },
-        { id: 1111, name: "cat", translate: "кошка", completed: false },
-        { id: 1222, name: "dog", translate: "собака", completed: false },
-        { id: 1333, name: "small", translate: "маленький", completed: false },
-        { id: 1444, name: "big", translate: "большой", completed: false },
-    ]);
+    type Props = {
+        lessons: LessonDetail[];
+    };
+
+    const props = defineProps<Props>();
+    const { lessons } = toRefs(props);
+
+    const pairs = ref(lessons);
 
     const nameList = computed(() => {
         return pairs.value;
-        // return pairs.value.filter((pair) => pair.completed === false);
     });
 
     const translateList = computed(() => {
@@ -37,15 +29,15 @@
     });
 
     const selected = reactive({
-        nameId: 0,
-        translateId: 0,
+        nameId: "",
+        translateId: "",
     });
 
-    const onSelectName = (id: number) => {
-        selected.nameId === id ? (selected.nameId = 0) : (selected.nameId = id);
+    const onSelectName = (id: string) => {
+        selected.nameId === id ? (selected.nameId = "") : (selected.nameId = id);
     };
 
-    const onSelectedTranslate = (id: number) => {
+    const onSelectedTranslate = (id: string) => {
         selected.translateId = id;
         checkPairs();
     };
@@ -77,8 +69,8 @@
         isError.value = true;
         setTimeout(() => {
             isError.value = false;
-            selected.nameId = 0;
-            selected.translateId = 0;
+            selected.nameId = "";
+            selected.translateId = "";
         }, TIMEOUT);
     };
 </script>
@@ -127,18 +119,16 @@
 <style lang="scss">
     .lesson-words-pairs__inner {
         display: flex;
-        max-width: 600px;
-        margin: 0 auto;
+        gap: 10px;
         &.is-disabled {
             pointer-events: none;
         }
     }
 
     .lesson-words-pairs__group {
-        padding: 12px;
         width: 50%;
         @include media($bp-desktop-sm) {
-            width: 240px;
+            width: 100%;
         }
     }
 

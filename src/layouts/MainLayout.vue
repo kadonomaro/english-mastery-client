@@ -14,6 +14,6 @@
 <style lang="scss">
     .main-layout__header {
         @include sticky(0);
-        margin-bottom: 10px;
+        margin-bottom: 25px;
     }
 </style>

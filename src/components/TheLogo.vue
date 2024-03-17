@@ -1,14 +1,16 @@
 <script setup lang="ts"></script>
 
 <template>
-    <div class="the-logo">
+    <router-link :to="{ name: 'Home' }" class="the-logo">
         <img class="the-logo__image" src="/static/logo.svg" alt="" />
         <span class="the-logo__text">English Mastery</span>
-    </div>
+    </router-link>
 </template>
 
 <style lang="scss">
     .the-logo {
+        display: block;
+        text-decoration: none;
         @include media($bp-desktop-sm) {
             display: flex;
             align-items: center;

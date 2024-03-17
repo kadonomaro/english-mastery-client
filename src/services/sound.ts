@@ -6,9 +6,9 @@ class SoundService {
 
     constructor() {
         this.audio = {
-            success: new Audio(`./static/sounds/success.mp3`),
-            error: new Audio(`./static/sounds/error.mp3`),
-            finish: new Audio(`./static/sounds/finish.mp3`),
+            success: new Audio(`/static/sounds/success.mp3`),
+            error: new Audio(`/static/sounds/error.mp3`),
+            finish: new Audio(`/static/sounds/finish.mp3`),
         };
     }
 

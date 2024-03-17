@@ -1,10 +1,14 @@
 <script setup lang="ts">
-    import LessonWordsPairs from "@/components/lessons/LessonWordsPairs.vue";
+    import HomeLessons from "@/components/home/HomeLessons.vue";
 </script>
 
 <template>
     <div class="home-page">
-        <lesson-words-pairs></lesson-words-pairs>
+        <div class="container">
+            <div class="home-page__lessons">
+                <home-lessons></home-lessons>
+            </div>
+        </div>
     </div>
 </template>
 

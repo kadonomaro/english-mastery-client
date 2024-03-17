@@ -29,9 +29,9 @@
     .base-button {
         display: block;
         width: 100%;
-        padding: 0 20px;
+        padding: 0 12px;
         color: #4b4b4b;
-        font-size: 24px;
+        font-size: 20px;
         font-weight: 500;
         line-height: 56px;
         text-align: center;
@@ -45,6 +45,10 @@
             background-color 0.2s ease-in,
             border-color 0.2s ease-in,
             box-shadow 0.2s ease-in;
+        @include media($bp-desktop-sm) {
+            padding: 0 20px;
+            font-size: 24px;
+        }
         &:hover {
             background-color: #f7f7f7;
         }
